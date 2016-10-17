@@ -1,7 +1,8 @@
 Package: Rjkb
 Title: Functions for Jeanette Birnbaum
 Version: 0.0.0.9000
-Authors@R: person("Jeanette", "Birnbaum", email = "kurian@uw.edu", role = "aut")
+Author: Jeanette Birnbaum
+Maintainer: Jeanette Birnbaum <kurian@uw.edu>
 Description: What the package does (one paragraph).
 Depends:
     R (>= 3.3.0)
