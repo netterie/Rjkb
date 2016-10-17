@@ -15,6 +15,7 @@
 #'        should be loaded (TRUE). If you want to have some package functions but overwrite others,
 #'        specify TRUE here and a file in the 'packagefile' param
 #' @param packagefile Within the workd, path to file with newer package functions
+#' @export
 setup_hivbackcalc = function(workd, datafile, source_these, loadlib=TRUE,
                              msm=FALSE, na="", load_package=TRUE,
                              package_updated=NULL, packagefile=NULL) {
@@ -52,4 +53,5 @@ setup_hivbackcalc = function(workd, datafile, source_these, loadlib=TRUE,
   }
   
 }
+
 
