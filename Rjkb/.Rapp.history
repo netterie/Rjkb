@@ -1,182 +1,46 @@
-geom_bar(stat = "identity", width = .7, fill=reorder(resultsM,order)) +
-geom_text(aes(y = pos, label = label), size = 4) +
-theme(text = element_text(size=10)) +
-scale_x_discrete(name='Years after intervention') +
-scale_y_continuous('Percent Surviving',limits=c(0,100)) +
-theme_bw() + facet_grid(.~Scenario)
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-subset(resultsM, Ages=='All')
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-g
-g <- ggplot(subset(resultsM,Ages=='All'),
-aes(x = factor(Time), y = value, fill = order)) +
-geom_bar(stat = "identity", width = .7) +
-geom_text(aes(y = pos, label = label), size = 4) +
-theme(text = element_text(size=10)) +
-scale_x_discrete(name='Years after intervention') +
-scale_y_continuous('Percent Surviving',limits=c(0,100)) +
-theme_bw() + facet_grid(.~Scenario)
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-resultsM <- resultsM[order(resultsM$order),]
-resultsM
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-g
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-g
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-g
-subset(resultsM, Ages='All')
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-g
-levels(resultsM$Treatment)
-str(resultsM)
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-resultsM = ddply(resultsM, .(Ages, Time,Scenario), transform,
-pos = (cumsum(value) - 0.5 * value))
-subset(resultsM, Ages=='All')
-subset(resultsA, Ages=='All')
-results
-resultsA
-resultsA[1:10,1:4]
-g
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-ids
-resultsM
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-g+coord_flip()
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-g
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-g + theme(legend.position='bottom') + theme(legend.title=element_blank())
-g + theme(legend.position='bottom') + theme(legend.title=element_blank()) +
-ggtitle('All Ages')
-g + ggplot(subset(resultsM, Ages=='30-49'))
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-plotfun(subset(resultsM, Ages=='30-49')) + ggtitle('Ages 30-49')
-plotfun(subset(resultsM, Ages=='50-69')) + ggtitle('Ages 50-69')
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-plotfun(subset(resultsM, Ages=='All')) + ggtitle('All Ages')
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-plotfun(subset(resultsM, Ages=='All')) + ggtitle('All Ages')
-head(resultsM)
-str(resultsM)
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-plotfun(subset(resultsM, Ages=='All')) + ggtitle('All Ages')
-plotfun(subset(resultsM, Ages=='30-49')) + ggtitle('Ages 30-49')
-plotfun(subset(resultsM, Ages=='50-69')) + ggtitle('Ages 50-69')
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/examples/tza_3_chemo1b/input/user_options.R")
-control_cumincTmp <- llply(control_cuminc, .fun=function(x){colSums(x)/nrow(x)})
-screen_cumincTmp <- llply(screen_cuminc, .fun=function(x){colSums(x)/nrow(x)})
-control_cumincTmp
-screen_cumincTmp
-survamongIncC <- transform(ldply(control_cumincTmp, rbind),Group='Control')
-survamongIncS <- transform(ldply(screen_cumincTmp, rbind),Group='Screen')
-survamongIncC
-survamongIncS
-survamongInc <- rbind(survamongIncC,survamongIncS)
-survamongInc <- cast(melt(survamongInc), .id+variable~Group)
-survamongInc <- rename(survamongInc, c('.id'='Time', 'variable'='Trial'))
-survamongInc
-incCases <- ddply(rcases,.(Time,Trial),summarize,
-Incidence=sum(Total, na.rm=TRUE))
-incCases
-incCases <- transform(incCases, Incidence=Incidence*(denom/nrow(ageclin)))
-incCases
-rcases
-incCases <- ddply(rcases,.(Time,Trial,Group),summarize,
-Incidence=sum(Total, na.rm=TRUE))
-incCases
-incCases <- transform(incCases, Incidence=Incidence*(denom/nrow(ageclin)))
-incCases
-survamongInc
-incCase
-incCases
-incCases <- cast(incCases, Time+Trial~Group)
-incCases
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-incCases <- ddply(rcases,.(Time,Trial,Group),summarize,
-Incidence=sum(Total, na.rm=TRUE))
-incCases <- transform(incCases,
-Group=paste0(Group,'Inc'),
-Incidence=Incidence*(denom/nrow(ageclin)))
-incCases
-incCases <- cast(incCases, Time+Trial~Group)
-incCases
-survInc <- merge(survamongInc, incCases, all=TRUE)
-survInc
-base::source("/var/folders/h6/h4p43sn965d0c01f8_4s0pqh0000gn/T/Nvim-R-jeanette/Rsource-60831")
-survInc
-survInc <- transform(survInc,
-Control=round(100*(ControlInc-ControlCuminc)/ControlInc),
-Screen=round(100*(ScreenInc-ScreenCuminc)/ScreenInc))
-survInc
-melt(survInc)
-survInc <- subset(melt(survInc), variable%in%c('Control', 'Screen'))
-survInc
-(199-60)/199
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/examples/tza_3_chemo1b/input/user_options.R")
-survInc
-model
-model_version
-'using_wrapper'
-rm('using_wrapper')
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/examples/tza_3_chemo1b/input/user_options.R")
-model_version
-base::source("/Users/jeanette/Documents/jbirnbau/screentreatGlobal/code/figures.R")
-plotfun(subset(resultsM, Ages=='All')) + ggtitle('All Ages')
-plotfun(subset(resultsM, Ages=='30-49')) + ggtitle('Ages 30-49')
-plotfun(subset(resultsM, Ages=='50-69')) + ggtitle('Ages 50-69')
-q()
-devtools::install_github('hivbackcalc/package1.0/HIVBackCalc', build_vignettes=TRUE, ref='panel-plot')
-devtools::install_github('hivbackcalc/package1.0/HIVBackCalc', build_vignettes=TRUE, ref='panel-plots')
-q()
+plot_categorical(dataf, 'everHadNegTest',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE)
+head(dataf)
+dataf <- transform(dataf, everHad3=ifelse(is.na(everHadNegTest), 'Missing',
+ifelse(everHadNegTest), 'Yes', 'No'))
+dataf <- transform(dataf, everHad3=ifelse(is.na(everHadNegTest), 'Missing',
+ifelse(everHadNegTest, 'Yes', 'No')))
+plot_categorical(dataf, 'everHad3',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE)
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~mode2)
 getwd()
-q()
-quit(save = "no")
-q()
-base::source("/Users/jeanette/Dropbox/Coding/Rjkb/Rjkb/R/plots.R")
-library(devtools)
-rm(list=ls())
 load_all()
-getwd()
-cd ('Rjkb')
-setwd('Rjkb')
-load_all(0)
-load_all()
-data(nsfg)
-library(devtools)
-library(egonet)
-library(plyr)
-library(ggplot2)
-load_all()
-plot_categorical
-data(nsfg)
-dfl <- reshape_edgelist(nsfg, delete_empty=c("active","once","rel","dfs","dls","len"))
-d <- transform(dfl, lenf=cut(len,breaks=c(0,12,351)))
-p <- plot_categorical(d, var='lenf',
-group='sex', panel=NULL, yperc=TRUE, ylab='Percent')
-p
-plot_categorical(d, 'lenf', NULL, NULL)
-plot_categorical(d, 'lenf')
-load_all()
-:53
-plot_categorical(d, 'lenf')
-for (v in c('var', 'group', 'panel')) {
-if (!is.null(eval(parse(text=v))))
-d[,v] <- d[,eval(parse(text=v))] else d[,v] <- 'All'
-}
-c
-tab <- ddply(d, c('var', 'group', 'panel'), summarize, N=length(var))
-tab
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~mode2)
 tab <- rbind(tab,
 data.frame(group='Total',
 ddply(tab, .(var, panel),
-summarise, N=sum(N))),
+summarise, N=sum(N)))
+)
+tab
+unique(d$panel)
+unique(d$panel)!='All'
+if (length(unique(d$panel)==1)) {
+if (unique(d$panel)=='All') addmore <- FALSE
+} else addmore <- TRUE
+c
+addmore
+length(unique(d$panel))
+if (length(unique(d$panel)==1)) {
+if (unique(d$panel)=='All') addmore <- FALSE else addmore <- TRUE
+} else addmore <- TRUE
+addmore
+length(unique(d$panel))
+if (length(unique(d$panel))==1) {
+if (unique(d$panel)=='All') addmore <- FALSE else addmore <- TRUE
+} else addmore <- TRUE
+addmore
+tab <- rbind(tab,
 data.frame(group='Total', panel='Total',
 ddply(tab, .(var),
 summarise, N=sum(N)))
@@ -187,11 +51,9 @@ if (sum(var.na)!=0) {
 warning('\nDeleting ', sum(tab$N[var.na & tab$group!='Total' & tab$panel!='Total']), ' cases with ', var, ' =NA')
 tab <- tab[!var.na,]
 }
-c
 tab = ddply(tab, c('group', 'panel'),
 transform,
 Percent = round(100*N/sum(N)))
-tab
 tab$label = paste0(sprintf("%.0f", tab$Percent), "%")
 if (stack) {
 tab = ddply(tab, .(group, panel), transform, pos = (cumsum(N) - 0.5 * N))
@@ -200,51 +62,189 @@ tab = ddply(tab, .(group, panel), transform, pos = (cumsum(N) - 0.5 * N))
 if (yperc) {
 tab <- transform(tab, N=Percent)
 adjust.lab <- 1
-} else adjust.lab <- max(N)/75
+} else adjust.lab <- max(tab$N)/75
 tab <- transform(tab, pos=N+adjust.lab)
 }
-tab
-stack
-yperc
-} else adjust.lab <- max(tab$N)/75
-if (yperc) {
-tab <- transform(tab, N=Percent)
-adjust.lab <- 1
-} else adjust.lab <- max(tab$N)/75
-tab <- transform(tab, pos=N+adjust.lab)
-tab
-margin
-pdat <- subset(tab, group!='Total' & panel!='Total')
+pdat <- tab
+if (!is.factor(pdat$var)) pdat$var <- factor(pdat$var)
+pdat <- transform(pdat, var=factor(var, levels=rev(levels(var)),
+labels=rev(levels(var))))
+p <- ggplot(pdat, aes(x=factor(group), y=N, fill=var)) +
+geom_bar(stat="identity", width=0.7)
+p
+p <- p + geom_text(aes(y=pos, label=label), size = 4)
+if (!regular_legend) {
+# Add special var labels, if regular_legend=FALSE
+# Saving this in case the new code messes things up
+p <- p + geom_label(aes(y=pos, fill=var, label=var),
+colour = "white", fontface = "bold", vjust=-1.5)
+#            p <- p + geom_label(aes(y=pos, fill=rev(var), label=var),
+#                                colour = "white", fontface = "bold", vjust=-1.5)
+# Remove regular legend guide
+p <- p + coord_flip() + guides(fill=FALSE)
+Q
+load_all()
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~mode2)
+load_all()
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~mode2)
+p
+p + facet_grid(.~panel)
+p
 pdat
 Q
 load_all()
-plot_categorical(d, 'lenf')
-plot_categorical(d, 'lenf', 'sex', NULL)
-plot_categorical(d, 'lenf', 'sex', 'main') + facet_grid(.~panel)
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~panel)
 load_all()
-plot_categorical(d, 'lenf', 'sex', 'main') + facet_grid(.~panel)
-load_all()
-plot_categorical(d, 'lenf', 'sex', 'main') + facet_grid(.~panel)
-eval(parse(text=v))
-findvar('main', v)
-str(d)
-args(findvar)
-findvar(d, 'main')
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~panel)
+if (is.null(group)) byvars <- 'var' else byvars <- c('var', 'group')
+c
+byvars
+group
+tab <- rbind(tab,
+data.frame(group='Total', panel='Total',
+ddply(tab, byvars,
+summarise, N=sum(N)))
+)
+ddply(tab, byvars, summarise, N=sum(N))
+tab <- rbind(tab,
+data.frame(panel='Total',
+ddply(tab, byvars,
+summarise, N=sum(N)))
+)
+tab
 Q
 load_all()
-plot_categorical(d, 'lenf', 'sex', 'rel') + facet_grid(.~panel)
-plot_categorical(d, 'lenf', stack=TRUE)
-plot_categorical(d, 'lenf', 'sex', stack=TRUE)
-plot_categorical(d, 'lenf', 'sex', 'rel', stack=TRUE) + facet_grid(panel~.)
-plot_categorical(d, 'lenf', 'sex', 'rel', yperc=TRUE, ylab='Percent') +
-facet_grid(panel~.)
-plot_categorical(pop, 'lencat1', 'sex', 'rel', yperc=TRUE, ylab='Percent') +
-facet_grid(panel~.)
-plot_categorical(d, 'lencat1', 'sex', 'rel', yperc=TRUE, ylab='Percent') +
-facet_grid(panel~.)
-plot_categorical(d, 'lenf', 'sex', 'rel', yperc=TRUE, ylab='Percent') +
-facet_grid(panel~.)
-plot_categorical(d, 'lenf', 'sex', 'rel', stack=TRUE) + facet_grid(panel~.)
-plot_categorical(d, 'lenf', 'sex', 'rel', add_exponential=TRUE) + facet_grid(.~panel)
-plot_categorical(d, 'lenf', 'sex', 'rel') + facet_grid(.~panel)
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~panel)
+Q
+load_all()
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~panel)
+regular_legend=TRUE) + facet_grid(panel~.)
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(panel~.)
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='yes',
+regular_legend=TRUE) + facet_grid(.~panel, scales='free_x')
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='no',
+regular_legend=TRUE) + facet_grid(.~panel, scales='free_x')
+plot_categorical(dataf, 'everHad3', panel='mode2',
+group='lateDiagChar', stack=TRUE, margin='no',
+regular_legend=TRUE) + facet_grid(.~panel, scales='free_x')
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+head(dataf)
+dataf <- transform(dataf, infCat=cut(infPeriod, breaks=c(0,0.25,0.5,1,5,18)))
+table(dataf$infCat, exclude=NULL)
+table(dataf$infCat, dataf$everHadNegTest, exclude=NULL)
+dataf <- transform(dataf, infCat=ifelse(!is.na(everHadNegTest),
+ifelse(!everHadNegTest, '18 (NT)',
+infCat)))
+dataf <- transform(dataf, infCat=ifelse(!is.na(everHadNegTest),
+ifelse(!everHadNegTest, '18 (NT)',
+infCat), NA))
+table(dataf$infCat, dataf$everHadNegTest, exclude=NULL)
+dataf <- transform(dataf, infCat=cut(infPeriod, breaks=c(0,0.25,0.5,1,5,18)))
+infCat
+dataf <- transform(dataf, infPeriod2=ifelse(!everHadNegTest, 19, infPeriod))
+table(dataf$infPeriod>=18, dataf$everHadNegTest, exclude=NULL)
+table(nineteen=dataf$infPeriod>=18, dataf$everHadNegTest, exclude=NULL)
+table(nineteen=dataf$infPeriod>=18, th=dataf$everHadNegTest, exclude=NULL)
+table(nineteen=dataf$infPeriod2>=18, th=dataf$everHadNegTest, exclude=NULL)
+dataf <- transform(dataf, infCat=cut(infPeriod2, breaks=c(0,0.25,0.5,1,5,18,19)))
+levels(dataf$infCat)
+levels(dataf$infCat)[6] <- '18 (NT)'
+levels(dataf$infCat)
+table(dataf$infCat, exclude=NULL)
+table(dataf$infCat, dataf$everHadNegTest, exclude=NULL)
+plot_categorical(dataf, 'infCat', group='mode2', stack=TRUE, margin='yes',
+regular_legend=TRUE)
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='mode2', stack=TRUE)
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='mode2', stack=TRUE) + facet_grid(.~mode2, scales='free_x')
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='mode2', stack=TRUE) + facet_grid(.~mode2, scales='free_x')
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='mode2', stack=TRUE) + facet_grid(.~panel)
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='mode2', stack=TRUE) + facet_grid(.~panel)
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='aidsMSM', stack=TRUE) + facet_grid(panel~., scales='free_x')
+plot_categorical(dataf, 'infCat', group='lateDiagChar',
+panel='aidsMSM', stack=TRUE) + facet_grid(.~panel, scales='free_x')
+dataf <- transform(dataf, infPeriod2=ifelse(!everHadNegTest, 19, infPeriod))
+dataf <- transform(dataf, infCat=cut(infPeriod2, breaks=c(0,1,5,18,19)))
+levels(dataf$infCat)[6] <- '18 (NT)'
+plot_categorical(dataf, 'infCat', group='lateDiagChar', regular_legend=TRUE,
+panel='mode2', stack=TRUE) + facet_grid(.~panel, scales='free_x')
+18+16
+dataf <- transform(dataf, infPeriod2=ifelse(!everHadNegTest & hdx_age>34, 19, infPeriod))
+dataf <- transform(dataf, infCat=cut(infPeriod2, breaks=c(0,1,5,18,19)))
+levels(dataf$infCat)[6] <- '18 (NT)'
+plot_categorical(dataf, 'infCat', group='lateDiagChar', regular_legend=TRUE,
+panel='mode2', stack=TRUE) + facet_grid(.~panel, scales='free_x')
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+str(ldx$tid$separate)
+MSM.tid <- list(not_late=ldx$tid$separate[['MSM No Late Dx']]$base_case,
+late=ldx$tid$separate[['MSM Late Dx']]$base_case)
+class(MSM.tid) <- append(class(MSM.tid), 'TID')
+plot(MSM.tid)
+plot(MSM.tid, 0.25)
+nonMSM.tid <- list(not_late=ldx$tid$separate[['non-MSM No Late Dx']]$base_case,
+late=ldx$tid$separate[['non-MSM Late Dx']]$base_case)
+class(nonMSM.tid) <- append(class(nonMSM.tid), 'TID')
+grid.arrange(
+plot(MSM.tid, diagInterval, cases=c('No Late Dx', 'Late Dx')) +
+ggtitle('MSM Base Case'),
+plot(nonMSM.tid, diagInterval, cases=c('No Late Dx', 'Late Dx')) +
+ggtitle('non-MSM Base Case'),
+ncol=2)
+grid.arrange(
+plot(MSM.tid, diagInterval, cases=c('No Late Dx', 'Late Dx')) +
+ggtitle('MSM Base Case'),
+plot(nonMSM.tid, diagInterval, cases=c('No Late Dx', 'Late Dx')) +
+ggtitle('non-MSM Base Case'),
+ncol=2)
+names(orig$resultsPlots)
+names(ldx)
+names(ldx$results)
+names(ldx$results$resultsAll)
+length(ldx$results)
+length(ldx[[5]])
+length(ldx[[6]])
+names(ldx$resultsCompiled)
+names(orig$results)
+head(ldx$resultsCompiled$results)
+str(ldx$resultsCompiled$results)
+names(orig)
+str(ldx$resultsCompiled$results$resultsAll)
+head(ldx$resultsCompiled$results$resultsAll)
+str(msmResults)
+names(msmResults)
+names(orig$resultsCompiled)
+names(orig$resultsCompiled$results)
+head(msmResults$resultsAll)
+head(orig$resultsAll)
+head(orig$resultsCompiled$resultsAll)
+wideall
+wideall
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+nvim.interlace.rmd("concurrentdx2015.Rmd", outform = "pdf_document", rmddir = "/Users/jeanette/Dropbox/School/PhD/HIV_WA/wa/concurrentdx2015/results", view = FALSE, envir = .GlobalEnv)
+subset(orig$resultsCompiled$trueprev, Subgroup=='Total-stratified' & Year==2014)
+subset(ldx$resultsCompiled$trueprev, Subgroup=='Total-stratified' & Year==2014)
 quit(save = "no")
