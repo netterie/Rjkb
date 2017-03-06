@@ -52,10 +52,6 @@ if (1==0) {
     load_all()
 
     #--------------------
-    # Working - these still need to be transferred up to examples
-    #--------------------
-    
-    #--------------------
     # Working - these have been transferred up to examples
     #--------------------
     # NSFG examples
@@ -85,8 +81,18 @@ if (1==0) {
                      yperc=TRUE) + facet_grid(.~panel)
 
     #--------------------
+    # Working - these still need to be transferred up to examples
+    #--------------------
+    
+    #--------------------
     # To fix
     #--------------------
+    library(devtools)
+    library(HIVBackCalc)
+    data(KCsim)
+    load_all()
+    # Total is wrong. Also Total should come at the bottom.
+    plot_categorical(KCsim, 'fakeGroup', 'race', margin='yes', stack=TRUE)
 
     #--------------------
     # To develop
@@ -105,19 +111,36 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
         if (!is.null(eval(parse(text=v))))
             d[,v] <- d[,eval(parse(text=v))] else d[,v] <- 'All'
     }
-    tab <- ddply(d, c('var', 'group', 'panel'), summarize, N=length(var))
+    # Specify plyr::summarize otherwise you could call summarize from 
+    # another package like Hmisc or dplyr
+    tab <- ddply(d, c('var', 'group', 'panel'), plyr::summarize, N=length(var))
 
     # Add margins
-    # I'm not sure this is relevant, but it came in handy for the WA CD4 graphs
     tab <- rbind(tab,
                 data.frame(group='Total',
                            ddply(tab, .(var, panel),
-                                 summarise, N=sum(N))),
-                data.frame(group='Total', panel='Total',
-                           ddply(tab, .(var),
                                  summarise, N=sum(N)))
-
                 )
+
+    # For when there's a panel variable but you still want a total margin
+    if (length(unique(d$panel))==1) {
+        if (unique(d$panel)=='All') addmore <- FALSE else addmore <- TRUE
+    } else addmore <- TRUE
+
+    if (addmore) {
+        tab <- rbind(tab,
+                    data.frame(group='Total', panel='Total',
+                               ddply(tab, .(var),
+                                     summarise, N=sum(N)))
+                    )
+        if (!is.null(group)) {
+            tab <- rbind(tab,
+                        data.frame(panel='Total',
+                                   ddply(tab, .(var, group),
+                                         summarise, N=sum(N)))
+                        )
+        }
+    }
 
     # Delete NA's and issue a warning - even this could be a function
     var.na <- is.na(tab$var)
@@ -161,6 +184,7 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
     # Dodge will have x=var values and colors=group
     if (stack) {
         # The latest ggplot ordering is really annoying and has to be reversed
+        if (!is.factor(pdat$var)) pdat$var <- factor(pdat$var)
         pdat <- transform(pdat, var=factor(var, levels=rev(levels(var)),
                                            labels=rev(levels(var))))
         p <- ggplot(pdat, aes(x=factor(group), y=N, fill=var)) +
