@@ -8,6 +8,7 @@
 #' I think I should externalize the tabulation - that would be better for unit
 #' testing. Then the plot function would only need to add the label.
 #'
+#' @param sum Set to TRUE if the variable is a weight and you want to view its sum rather than its count
 #' Goal: be able to add a group and/or panel variable using standard ggplot syntax
 #'
 #' @examples
@@ -100,10 +101,14 @@ if (1==0) {
 }
 
 plot_categorical <- function(d, var, group=NULL, panel=NULL,
-                             stack=FALSE, margin='no',
+                             stack=FALSE, flipcoord=TRUE, margin='no',
                              yperc=FALSE, ylab='Frequency',
+                             labelPerc=TRUE,
                              add_exponential=FALSE,
-                             regular_legend=FALSE) {
+                             regular_legend=FALSE,
+                             sum=FALSE,
+                             weighted=FALSE,
+                             textsize=4) {
     # Define variables named 'var', 'group' and 'panel'
     # if they're not null
     # Could turn this into its own function, with default vals
@@ -113,7 +118,13 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
     }
     # Specify plyr::summarize otherwise you could call summarize from 
     # another package like Hmisc or dplyr
-    tab <- ddply(d, c('var', 'group', 'panel'), plyr::summarize, N=length(var))
+    if (!sum & !weighted) {
+        tab <- ddply(d, c('var', 'group', 'panel'), plyr::summarize, N=length(var))
+    } else if (sum & !weighted) {
+        tab <- ddply(d, c('var', 'group', 'panel'), plyr::summarize, N=sum(var))
+    } else if (weighted) {
+        tab <- ddply(d, c('var', 'group', 'panel'), plyr::summarize, N=sum(weight))
+    }
 
     # Add margins
     tab <- rbind(tab,
@@ -157,7 +168,11 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
     # ddply(tab, .(group, panel), summarise, Total=sum(Percent))
 
     # Format the labels and calculate their positions
-    tab$label = paste0(sprintf("%.0f", tab$Percent), "%")
+    if (labelPerc) {
+        tab$label = paste0(sprintf("%.0f", tab$Percent), "%")
+    } else {
+        tab$label = as.character(tab$N)
+    }
     if (stack) {
         tab = ddply(tab, .(group, panel), transform, pos = (cumsum(N) - 0.5 * N))
     } else {
@@ -190,27 +205,25 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
         p <- ggplot(pdat, aes(x=factor(group), y=N, fill=var)) +
             geom_bar(stat="identity", width=0.7)
         # Saving this in case the new code messes things up
-#        p <- ggplot(pdat, aes(x=factor(group), y=N, fill=rev(var))) +
+#       p <- ggplot(pdat, aes(x=factor(group), y=N, fill=rev(var))) +
 #            geom_bar(stat="identity", width=0.7)
         # Add text labels
-        p <- p + geom_text(aes(y=pos, label=label), size = 4)
+        p <- p + geom_text(aes(y=pos, label=label), size = textsize)
         if (!regular_legend) {
             # Add special var labels, if regular_legend=FALSE
-        # Saving this in case the new code messes things up
             p <- p + geom_label(aes(y=pos, fill=var, label=var),
                                 colour = "white", fontface = "bold", vjust=-1.5)
-#            p <- p + geom_label(aes(y=pos, fill=rev(var), label=var),
+#           p <- p + geom_label(aes(y=pos, fill=rev(var), label=var),
 #                                colour = "white", fontface = "bold", vjust=-1.5)
             # Remove regular legend guide
-            p <- p + coord_flip() + guides(fill=FALSE)
+            p <- p + guides(fill=FALSE)
         } else {
             # Regular legend needs flipping - again, annoying
             # nuance of the latest ggplot
-            p <- p + coord_flip() + 
-                scale_fill_discrete(name='', guide=guide_legend(reverse=TRUE))
+            p <- p + scale_fill_discrete(name='', guide=guide_legend(reverse=TRUE))
         }
-        # Flip coordinates
-        p <- p + coord_flip()
+        # Flip coordinates?
+        if (flipcoord) p <- p + coord_flip()
     } else {
         # Assumes fill guide is needed - but take off the name?
         p <- ggplot(pdat, aes(x=var, y=N, fill=group)) +
@@ -218,7 +231,7 @@ plot_categorical <- function(d, var, group=NULL, panel=NULL,
             scale_fill_discrete(name='')
         # Does this need a fill=group in the aes? I got an
         # 'unknown aesethetic' warning
-        p <- p + geom_text(aes(y=pos, label=label), size=4,
+        p <- p + geom_text(aes(y=pos, label=label), size=textsize,
                        position=position_dodge(width=0.7))
 
         # Optional: add exponential
